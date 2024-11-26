@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { View, TextInput, Button, FlatList, Text, StyleSheet, KeyboardAvoidingView, Platform } from "react-native";
-import Clipboard from "@react-native-clipboard/clipboard";
 import io from "socket.io-client";
 import Constants from "expo-constants";
 
@@ -47,20 +46,16 @@ const App = () => {
     }
   };
 
-  const copyToClipboard = (text) => {
-    Clipboard.setString(text);
-    Alert.alert("Kopyalandı", `"${text}" başarıyla kopyalandı!`);
-  };
-
   return (
       <KeyboardAvoidingView
           style={styles.container}
           behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
+        <Text style={{padding: '5'}}>Server: {(getSocketServer())}</Text>
         <View style={styles.container}>
           <FlatList
               data={messages}
-              renderItem={({item}) => <Text onPress={() => copyToClipboard(item.text)} style={styles.message}>{item.text}</Text>}
+              renderItem={({item}) => <Text style={styles.message}>{item.text}</Text>}
               keyExtractor={(item) => item.id}
           />
           <View style={styles.inputContainer}>
